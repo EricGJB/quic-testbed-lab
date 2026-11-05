@@ -1,0 +1,9 @@
+algorithm,profile,runs,goodput_mbps,forward_qdisc_drops,cwnd_bytes_p50,srtt_ms_p50,pacing_mbps_p50,declared_lost,original_received,original_received_after_declaration,received_number,received_time,received_both,received_rescheduled,cwnd_cuts
+cubic,delayjitter,3,0.64834,0,4034.0,38.43103,0.81993,179,179,0,26,134,14,0,73
+cubic,fixed40,3,35.68058,201,327593.0,65.47781,38.92121,237,0,0,0,0,0,0,3
+cubic,loss1,3,5.01413,26,20941.0,40.52266,4.12862,25,0,0,0,0,0,0,21
+cubic_k64,delayjitter,3,0.66507,0,3831.0,38.44711,0.79389,184,184,0,0,184,0,0,76
+cubic_k64_t2,delayjitter,3,16.40151,0,87559.0,33.09079,21.1848,69,69,1,68,0,0,0,7
+cubic_k64_t2,fixed40,3,35.95201,195,324057.0,65.10448,38.92708,237,0,0,0,0,0,0,3
+cubic_k64_t2,loss1,3,4.06728,36,19799.0,40.54576,3.8898,35,0,0,0,0,0,0,22
+cubic_t2,delayjitter,3,0.93922,0,5427.0,38.1636,1.13151,87,87,0,87,0,0,0,47

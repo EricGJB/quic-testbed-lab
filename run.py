@@ -210,7 +210,7 @@ def run_case(args, namespaces, catalog, case, algorithm, workload, index, logger
         for role, namespace in (("server", server), ("client", client)):
             log = work / (role + ".txt")
             with log.open("w") as handle:
-                launch = ["ip", "netns", "exec", namespace, sys.executable, str(ROOT / "endpoint.py"),
+                launch = ["ip", "netns", "exec", namespace, sys.executable, str(args.endpoint),
                           role, str(work), workload, algorithm, str(duration)]
                 if args.no_qlog:
                     launch.append("--no-qlog")
@@ -298,12 +298,14 @@ def main():
     parser.add_argument("--algorithm", nargs="+")
     parser.add_argument("--no-qlog", action="store_true")
     parser.add_argument("--suite", type=Path, default=ROOT / "profiles.yaml")
+    parser.add_argument("--endpoint", type=Path, default=ROOT / "endpoint.py")
     parser.add_argument("--finalize-failures-only", action="store_true")
     args = parser.parse_args()
     if os.geteuid() or aioquic.__version__ != "1.2.0":
         parser.error("requires root for isolated netns and aioquic==1.2.0")
     args.out = args.out.resolve()
     args.testbed = args.testbed.resolve()
+    args.endpoint = args.endpoint.resolve()
     args.out.mkdir(parents=True, exist_ok=True)
     sys.path[:0] = [str(args.testbed / "netemu/src"), str(args.testbed / "aitestbed")]
     from netemu import NetworkEmulator
@@ -331,6 +333,7 @@ def main():
          aioquic=aioquic.__version__, testbed_commit=TESTBED_COMMIT,
          sources={path: sha(args.testbed / path) for path in paths},
          lab_profiles=sha(args.suite), qlog=not args.no_qlog,
+         endpoint_sha256=sha(args.endpoint),
          tc=output("tc", "-V").strip(), repeats=args.repeats))
     logger = TrafficLogger(str(args.out / "traffic.sqlite"))
     matrix = catalog["matrix"][args.workload]

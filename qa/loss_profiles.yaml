@@ -1,0 +1,15 @@
+profiles:
+  steady: {rate_mbit: 40, delay_ms: 20, limit_packets: 256}
+  jitter: {rate_mbit: 40, delay_ms: 20, jitter_ms: 5, delay_distribution: normal, limit_packets: 256}
+  real_loss: {rate_mbit: 40, delay_ms: 20, loss_pct: 1, limit_packets: 256}
+  reverse: {delay_ms: 20, limit_packets: 1024}
+scenarios:
+  fixed40: {forward: steady, reverse: reverse}
+  delayjitter: {forward: jitter, reverse: reverse}
+  loss1: {forward: real_loss, reverse: reverse}
+matrix:
+  bulk:
+    cubic: [fixed40, delayjitter, loss1]
+    cubic_k64: [delayjitter]
+    cubic_t2: [delayjitter]
+    cubic_k64_t2: [fixed40, delayjitter, loss1]

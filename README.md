@@ -1,5 +1,7 @@
 # QUIC / 6G-Testbed 网络波动实验
 
+**专题问答报告**解释 pacing 与 cwnd、稳时延和稳速率的价值、网络侧如何配合，并补做判丢阈值和分档交付分析。[阅读问答报告](REPORT.qa.zh-CN.md)
+
 **第二版**使用本地 MiniCPM-o 2.6 视频问答，测试稳时延、稳速率、短时服务量和 pacing 协同对推理 QoE 的影响。[第二版报告](REPORT.v2.zh-CN.md) · [复现](v2/README.md) · [逐题结果](results/v2/requests.csv) · [配置汇总](results/v2/profiles.csv)
 
 **第一版**的持续流和 GRACE 实验保留在下方。
