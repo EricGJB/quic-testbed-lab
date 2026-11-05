@@ -1,0 +1,29 @@
+{
+  "cases": 18,
+  "requests": 216,
+  "expected_per_case": 12,
+  "status": {
+    "complete": 204,
+    "timeout": 12
+  },
+  "input_sizes": [
+    190196,
+    191706,
+    205753,
+    209144,
+    232995,
+    250783,
+    251754,
+    258522,
+    316004,
+    354061,
+    384717,
+    390744
+  ],
+  "verified_uploads": 204,
+  "dual_pcap": 216,
+  "dual_qlog": 216,
+  "quic_versions": [
+    1
+  ]
+}

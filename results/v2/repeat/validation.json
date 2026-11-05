@@ -1,0 +1,28 @@
+{
+  "cases": 10,
+  "requests": 120,
+  "expected_per_case": 12,
+  "status": {
+    "complete": 120
+  },
+  "input_sizes": [
+    190196,
+    191706,
+    205753,
+    209144,
+    232995,
+    250783,
+    251754,
+    258522,
+    316004,
+    354061,
+    384717,
+    390744
+  ],
+  "verified_uploads": 120,
+  "dual_pcap": 120,
+  "dual_qlog": 120,
+  "quic_versions": [
+    1
+  ]
+}

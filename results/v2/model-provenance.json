@@ -1,0 +1,17 @@
+{
+  "model": "openbmb/MiniCPM-o-2_6-gguf",
+  "revision": "565cac3bb01ac51e985fff9f5d7a52322b826c23",
+  "runtime": "llama.cpp b11516 d4d82d67f",
+  "gpu": "NVIDIA GeForce RTX 3070",
+  "driver": "610.60",
+  "files": {
+    "Model-7.6B-Q4_K_M.gguf": {
+      "bytes": 4681260960,
+      "sha256": "4f635fc0c0bb88d50ccd9cf1f1e5892b5cb085ff88fe0d8e1148fd9a8a836bc2"
+    },
+    "mmproj-model-f16.gguf": {
+      "bytes": 1044425152,
+      "sha256": "efa4f7d96aa0f838f2023fc8d28e519179b16f1106777fa9280b32628191aa3e"
+    }
+  }
+}

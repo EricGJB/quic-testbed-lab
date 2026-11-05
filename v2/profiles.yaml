@@ -1,0 +1,30 @@
+profiles:
+  service8: {rate_mbit: 8, delay_ms: 20, limit_packets: 128}
+  service14: {rate_mbit: 14, delay_ms: 20, limit_packets: 128}
+  service2: {rate_mbit: 2, delay_ms: 20, limit_packets: 128}
+  steady_delay: {rate_mbit: 8, delay_ms: 20, limit_packets: 128}
+  delay_low: {rate_mbit: 8, delay_ms: 5, limit_packets: 128}
+  delay_high: {rate_mbit: 8, delay_ms: 35, limit_packets: 128}
+  ack20: {delay_ms: 20, limit_packets: 256}
+  ack_jitter: {delay_ms: 20, jitter_ms: 10, delay_distribution: normal, limit_packets: 256}
+  loss1: {rate_mbit: 8, delay_ms: 20, loss_pct: 1, limit_packets: 128}
+
+scenarios:
+  steady: {forward: service8, reverse: ack20}
+  steady_reno: {forward: service8, reverse: ack20, algorithm: reno}
+  steady_cap8: {forward: service8, reverse: ack20, cap: fixed8}
+  rate10_high: {forward: service14, reverse: ack20, rate: [14, 2], dwell: 10}
+  rate10_low: {forward: service2, reverse: ack20, rate: [2, 14], dwell: 10}
+  rate50_high: {forward: service14, reverse: ack20, rate: [14, 2], dwell: 50}
+  rate50_low: {forward: service2, reverse: ack20, rate: [2, 14], dwell: 50}
+  rate100_high: {forward: service14, reverse: ack20, rate: [14, 2], dwell: 100}
+  rate100_low: {forward: service2, reverse: ack20, rate: [2, 14], dwell: 100}
+  rate50_matched: {forward: service14, reverse: ack20, rate: [14, 2], dwell: 50, cap: matched}
+  rate50_opposite: {forward: service14, reverse: ack20, rate: [14, 2], dwell: 50, cap: opposite}
+  rate50_reno: {forward: service14, reverse: ack20, rate: [14, 2], dwell: 50, algorithm: reno}
+  delay10: {forward: delay_low, reverse: ack20, delay: [5, 35], dwell: 10}
+  delay50: {forward: delay_low, reverse: ack20, delay: [5, 35], dwell: 50}
+  ack_variation: {forward: service8, reverse: ack_jitter}
+  loss1: {forward: loss1, reverse: ack20}
+  urban: {forward: 5g_urban, reverse: 5g_urban}
+  congested: {forward: congested, reverse: congested}
