@@ -111,4 +111,4 @@
 
 ## 原始证据
 
-可下载按实验轮次组织的 qlog、抓包、窗口与 pacing 事件、网络切换时刻、Testbed SQLite 及校验清单。模型权重、视频与特征源数据在本地生成与使用。[GitHub Release v1.0.0](https://github.com/qinyishcn/quic-testbed-lab/releases/tag/v1.0.0)
+公开证据包含全部逐轮窗口采样、pacing 计数、应用收发记录、网络切换时刻、Testbed SQLite 和 SHA-256 清单。代表性场景还附逐事件 pacing、双侧 PCAP 及可用的双端 qlog。其余逐包抓包和 qlog 与模型权重、视频、特征源数据在本地保留。完整归档的文件大小与摘要单独记录。[GitHub Release v1.0.0](https://github.com/qinyishcn/quic-testbed-lab/releases/tag/v1.0.0) · [本地完整归档元数据](results/archive.json)

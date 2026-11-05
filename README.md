@@ -66,4 +66,6 @@ sudo "$MODEL_PY" media.py score --codec-repo "$CODEC_REPO" --grace "$GRACE" --ca
 
 ## 公开数据
 
-报告附逐轮汇总、时间序列、逐帧截止与 PSNR，以及可按轮查验的收发 qlog 和头部 PCAP。模型、视频、源特征、私钥和临时 TLS 证书留在本地。抓包仅含隔离链路的测试端口。[原始证据归档](https://github.com/qinyishcn/quic-testbed-lab/releases/tag/v1.0.0)
+报告附逐轮汇总、时间序列和逐帧截止与 PSNR。Release 证据包含全部逐轮遥测和代表性场景的收发 qlog、头部 PCAP。完整逐包归档以及模型、视频、源特征、私钥和临时 TLS 证书留在本地。抓包仅含隔离链路的测试端口。[公开证据包](https://github.com/qinyishcn/quic-testbed-lab/releases/tag/v1.0.0)
+
+由原始运行目录生成公开证据包的命令为 python archive.py RAW quic-testbed-evidence.tar.xz --compact。省略 compact 选项并使用 tar.gz 文件名可生成完整逐包归档。
