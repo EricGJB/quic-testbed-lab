@@ -1,0 +1,55 @@
+profiles:
+  fixed40: {rate_mbit: 40, delay_ms: 20, limit_packets: 256}
+  fixed5: {rate_mbit: 5, delay_ms: 20, limit_packets: 256}
+  fixed22: {rate_mbit: 22.5, delay_ms: 20, limit_packets: 256}
+  shallow40: {rate_mbit: 40, delay_ms: 20, limit_packets: 96}
+  ack20: {delay_ms: 20, limit_packets: 1024}
+  ack30: {delay_ms: 30, limit_packets: 1024}
+  ackjitter: {delay_ms: 30, jitter_ms: 10, delay_distribution: normal, limit_packets: 1024}
+  delayjitter: {rate_mbit: 40, delay_ms: 20, jitter_ms: 5, delay_distribution: normal, limit_packets: 256}
+  delaylow: {rate_mbit: 40, delay_ms: 5, limit_packets: 256}
+  loss1: {rate_mbit: 40, delay_ms: 20, loss_pct: 1.0, limit_packets: 256}
+  reorder1: {rate_mbit: 40, delay_ms: 20, jitter_ms: 1, reorder_pct: 1.0, limit_packets: 256}
+  model40: {rate_mbit: 40, delay_ms: 20, limit_packets: 96}
+  model1: {rate_mbit: 1, delay_ms: 20, limit_packets: 96}
+  model5: {rate_mbit: 5, delay_ms: 20, limit_packets: 96}
+  model2: {rate_mbit: 2, delay_ms: 20, limit_packets: 96}
+
+scenarios:
+  fixed40: {forward: fixed40, reverse: ack20}
+  fixed5: {forward: fixed5, reverse: ack20}
+  fixed22: {forward: fixed22, reverse: ack20}
+  step: {forward: fixed40, reverse: ack20, rate_step: [40, 5], begin_ms: 1800, end_ms: 3800, dwell_ms: 2000}
+  step_shallow: {forward: shallow40, reverse: ack20, rate_step: [40, 5], begin_ms: 1800, end_ms: 3800, dwell_ms: 2000}
+  rate10ms: {forward: fixed40, reverse: ack20, rate_step: [40, 5], begin_ms: 800, end_ms: 5100, dwell_ms: 10}
+  rate20ms: {forward: fixed40, reverse: ack20, rate_step: [40, 5], begin_ms: 800, end_ms: 5100, dwell_ms: 20}
+  rate100ms: {forward: fixed40, reverse: ack20, rate_step: [40, 5], begin_ms: 800, end_ms: 5100, dwell_ms: 100}
+  delay10ms: {forward: delaylow, reverse: ack20, delay_step: [5, 30], begin_ms: 800, end_ms: 5100, dwell_ms: 10}
+  delay20ms: {forward: delaylow, reverse: ack20, delay_step: [5, 30], begin_ms: 800, end_ms: 5100, dwell_ms: 20}
+  delay100ms: {forward: delaylow, reverse: ack20, delay_step: [5, 30], begin_ms: 800, end_ms: 5100, dwell_ms: 100}
+  delayjitter: {forward: delayjitter, reverse: ack20}
+  ack_fixed: {forward: fixed40, reverse: ack30}
+  ack_jitter: {forward: fixed40, reverse: ackjitter}
+  loss1: {forward: loss1, reverse: ack20}
+  reorder1: {forward: reorder1, reverse: ack20}
+  urban: {forward: 5g_urban, reverse: 5g_urban}
+  congested: {forward: congested, reverse: congested}
+  model40: {forward: model40, reverse: ack20}
+  model2: {forward: model2, reverse: ack20}
+  model5: {forward: model5, reverse: ack20}
+  model_rate10ms: {forward: model40, reverse: ack20, rate_step: [40, 1], begin_ms: 0, end_ms: 1800, dwell_ms: 10}
+  model_rate100ms: {forward: model40, reverse: ack20, rate_step: [40, 1], begin_ms: 0, end_ms: 1800, dwell_ms: 100}
+  model_step: {forward: model40, reverse: ack20, rate_step: [40, 1], begin_ms: 400, end_ms: 1200, dwell_ms: 800}
+  model_delay10ms: {forward: delaylow, reverse: ack20, delay_step: [5, 80], begin_ms: 0, end_ms: 1800, dwell_ms: 10}
+  model_delay100ms: {forward: delaylow, reverse: ack20, delay_step: [5, 80], begin_ms: 0, end_ms: 1800, dwell_ms: 100}
+
+matrix:
+  bulk:
+    cubic: [fixed40, fixed5, fixed22, step, step_shallow, rate10ms, rate20ms, rate100ms, delay10ms, delay20ms, delay100ms, delayjitter, ack_fixed, ack_jitter, loss1, reorder1, urban, congested]
+    reno: [fixed40, step, rate10ms, rate100ms, delay10ms, ack_jitter, loss1, congested]
+    cubic_small_burst: [fixed40, step, rate10ms, rate100ms, delay10ms, ack_jitter, loss1]
+    tcp: [fixed40, step, rate10ms, rate100ms, delay10ms, ack_jitter, loss1, congested]
+  grace:
+    cubic: [model40, model2, model5, model_rate10ms, model_rate100ms, model_step, model_delay10ms, model_delay100ms, ack_jitter, urban, congested]
+    reno: [model40, model2, model_step, model_delay10ms, congested]
+    cubic_small_burst: [model40, model2, model_step, model_delay10ms, congested]

@@ -1,0 +1,29 @@
+profiles:
+  fixed40: {rate_mbit: 40, delay_ms: 20, limit_packets: 256}
+  ack20: {delay_ms: 20, limit_packets: 1024}
+  delayjitter: {rate_mbit: 40, delay_ms: 20, jitter_ms: 5, delay_distribution: normal, limit_packets: 256}
+  delaylow: {rate_mbit: 40, delay_ms: 5, limit_packets: 256}
+  delaymean: {rate_mbit: 40, delay_ms: 17.5, limit_packets: 256}
+  loss1: {rate_mbit: 40, delay_ms: 20, loss_pct: 1.0, limit_packets: 256}
+  model40: {rate_mbit: 40, delay_ms: 20, limit_packets: 96}
+  model_delaymean: {rate_mbit: 40, delay_ms: 42.5, limit_packets: 256}
+
+scenarios:
+  fixed40: {forward: fixed40, reverse: ack20}
+  delayjitter: {forward: delayjitter, reverse: ack20}
+  delaymean: {forward: delaymean, reverse: ack20}
+  delay10ms: {forward: delaylow, reverse: ack20, delay_step: [5, 30], begin_ms: 800, end_ms: 5100, dwell_ms: 10}
+  loss1: {forward: loss1, reverse: ack20}
+  urban: {forward: 5g_urban, reverse: 5g_urban}
+  model_delay10ms: {forward: delaylow, reverse: ack20, delay_step: [5, 80], begin_ms: 0, end_ms: 1800, dwell_ms: 10}
+  model_delaymean: {forward: model_delaymean, reverse: ack20}
+  model_step: {forward: model40, reverse: ack20, rate_step: [40, 1], begin_ms: 400, end_ms: 1200, dwell_ms: 800}
+  model_congested_preroll: {forward: congested, reverse: congested, bootstrap_clean: true}
+
+matrix:
+  bulk:
+    cubic: [delaymean]
+    cubic_pkt12: [fixed40, delayjitter, delay10ms, loss1, urban]
+  grace:
+    cubic: [model_congested_preroll, model_delaymean]
+    cubic_pkt12: [model_delay10ms, model_step]

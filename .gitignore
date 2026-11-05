@@ -1,0 +1,7 @@
+__pycache__/
+.venv/
+pilot/
+*.pem
+*.sqlite*
+*.pcap
+*.npz

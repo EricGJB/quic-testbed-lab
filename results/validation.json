@@ -1,0 +1,32 @@
+{
+  "primary": {
+    "cases": 62,
+    "runs": 186,
+    "successful": 177,
+    "bulk_runs": 123,
+    "grace_completed": 54,
+    "grace_startup_timeouts": 9,
+    "pcap_pairs": 186,
+    "qlog_pairs": 153
+  },
+  "followup": {
+    "cases": 10,
+    "runs": 30,
+    "successful": 30,
+    "bulk_runs": 18,
+    "grace_completed": 12,
+    "grace_startup_timeouts": 0,
+    "qlog_pairs": 30,
+    "pcap_pairs": 30
+  },
+  "no_qlog": {
+    "cases": 2,
+    "runs": 6,
+    "successful": 6,
+    "bulk_runs": 6,
+    "grace_completed": 0,
+    "grace_startup_timeouts": 0,
+    "qlog_pairs": 0,
+    "pcap_pairs": 6
+  }
+}
