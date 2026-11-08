@@ -1,0 +1,38 @@
+{
+  "testbed": "7231ae8e5670b67564cf28d397c2820d9403ecdc",
+  "kernel": "6.6.87.2-microsoft-standard-WSL2",
+  "testbed_hashes": {
+    "netemu/src/netemu/emulator.py": "fb28fa06a292bec14c90576a96ae7f3b487267cba7dc229a3509cca09ccb188b",
+    "netemu/src/netemu/profile.py": "df355f6aa7ef45c50e9feb5a230f3e558df1c0b76afa29fdfeaf737339347b66",
+    "aitestbed/analysis/logger.py": "49180740a155994ff5924c1f11e7235e60ee5a67f3291719015407f8dbe34796"
+  },
+  "endpoint_hash": "529833529abe8587cc28f517cf29cc5d66edcab5ff47803327b184dcacc05e4c",
+  "qlog": true,
+  "cases": [
+    "A1_random",
+    "A1_equal20",
+    "A1_gold",
+    "A1load_random",
+    "A1load_equal20",
+    "A1load_gold",
+    "B1_fixed",
+    "B1_variable",
+    "B1_elastic",
+    "B1_fast",
+    "C1_reactive",
+    "C1_oracle",
+    "C1_80pct",
+    "D1_native",
+    "D1_high",
+    "D1_low",
+    "D1_equal",
+    "D1_pattern"
+  ],
+  "repeats": 3,
+  "repeat_zero_replaced": true,
+  "extra_cases": [
+    "A1load_slow",
+    "B1_rtt_elastic",
+    "B1_rtt_fast"
+  ]
+}

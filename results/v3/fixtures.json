@@ -1,0 +1,206 @@
+{
+  "01_1": {
+    "low": {
+      "bytes": 17648,
+      "sha256": "49724dae2507dad10287473d081a6423cf28cd3fa9b14dfe031a947c012a910c",
+      "wire_hash": 11596002902973881488,
+      "scale": 0.45,
+      "jpeg_quality": 40
+    },
+    "high": {
+      "bytes": 40230,
+      "sha256": "845129b5927b303245733bf15350149346bf829d4ec0ab050fb5625675116477",
+      "wire_hash": 4363596887363879737,
+      "scale": 0.45,
+      "jpeg_quality": 88
+    },
+    "label": "D"
+  },
+  "01_2": {
+    "low": {
+      "bytes": 17706,
+      "sha256": "10cd6916f63e9f6f7014e925e424d7240cd11eabe944e0df2798f5fc2e995cfa",
+      "wire_hash": 1828046272474313884,
+      "scale": 0.55,
+      "jpeg_quality": 32
+    },
+    "high": {
+      "bytes": 38993,
+      "sha256": "18e849f9ee83dd9904641cb6537bc115739fbcd7399dbd347f97c024b4ae9c18",
+      "wire_hash": 16435568532903969284,
+      "scale": 0.75,
+      "jpeg_quality": 56
+    },
+    "label": "C"
+  },
+  "04_1": {
+    "low": {
+      "bytes": 18759,
+      "sha256": "c1d9ba99641c4fac7a0cf51a46a32ecc777c2f671a016deb7a0918792815a89b",
+      "wire_hash": 8896192996222697141,
+      "scale": 0.45,
+      "jpeg_quality": 40
+    },
+    "high": {
+      "bytes": 39145,
+      "sha256": "e12f66f14d18ee20a846705a2041a934a5571813d1122afc77872340d38b6356",
+      "wire_hash": 7880827676519710519,
+      "scale": 0.55,
+      "jpeg_quality": 72
+    },
+    "label": "B"
+  },
+  "04_2": {
+    "low": {
+      "bytes": 16985,
+      "sha256": "21e3eb61db0a317510d361fff78968561535c67ee8d6cbbc5495685f70a46fbc",
+      "wire_hash": 16094790550399710362,
+      "scale": 0.45,
+      "jpeg_quality": 32
+    },
+    "high": {
+      "bytes": 39885,
+      "sha256": "2d022aee05978a05cdbe8d395f6768cbb1356111f07ce6d2783df372665c1d6b",
+      "wire_hash": 11145690340893677724,
+      "scale": 0.55,
+      "jpeg_quality": 72
+    },
+    "label": "C"
+  },
+  "07_1": {
+    "low": {
+      "bytes": 18300,
+      "sha256": "7cd20681600c8f193219a81c75d8536bf07e554d9e2f315ffc4b13770bb35f33",
+      "wire_hash": 7644607019394274459,
+      "scale": 0.55,
+      "jpeg_quality": 32
+    },
+    "high": {
+      "bytes": 41178,
+      "sha256": "c18d2590095cb903916ca110bd4bd4b518d9b1072f9f5c2b9ee846ef44a3f4d6",
+      "wire_hash": 16757953992038820494,
+      "scale": 0.75,
+      "jpeg_quality": 40
+    },
+    "label": "A"
+  },
+  "07_2": {
+    "low": {
+      "bytes": 18156,
+      "sha256": "0b652efeb24ac8618f470913e4353fbff58527e1c9db3409a2072b12a97ec63b",
+      "wire_hash": 1709404139205566802,
+      "scale": 0.55,
+      "jpeg_quality": 32
+    },
+    "high": {
+      "bytes": 39202,
+      "sha256": "9242551904872729319e2373fdd173a190ac29568e323abf2ff8d39f785633ce",
+      "wire_hash": 16703302578877506085,
+      "scale": 0.75,
+      "jpeg_quality": 56
+    },
+    "label": "A"
+  },
+  "10_1": {
+    "low": {
+      "bytes": 20833,
+      "sha256": "b71587252e9387408f4b88d110278bda27630d62d6fa66166de975b0e42c55e6",
+      "wire_hash": 2362364609130313290,
+      "scale": 0.45,
+      "jpeg_quality": 32
+    },
+    "high": {
+      "bytes": 39847,
+      "sha256": "0b5d9d38ebf49290277c86d89dbd3398750a4bc8aad198f60481b60c2d5d6c8c",
+      "wire_hash": 14631853596021228689,
+      "scale": 0.55,
+      "jpeg_quality": 56
+    },
+    "label": "B"
+  },
+  "10_2": {
+    "low": {
+      "bytes": 21100,
+      "sha256": "d2b9da9eb900cc7904e3b234795009ac1411fc4d95526aa9ef5a1d5875adb797",
+      "wire_hash": 8449710651699899780,
+      "scale": 0.45,
+      "jpeg_quality": 32
+    },
+    "high": {
+      "bytes": 40486,
+      "sha256": "7cd674aeeda5357895ff7d7750dbf7893e9948c0b7a4892d47e225fdb89ef249",
+      "wire_hash": 15020621103949569794,
+      "scale": 0.55,
+      "jpeg_quality": 56
+    },
+    "label": "A"
+  },
+  "13_1": {
+    "low": {
+      "bytes": 20642,
+      "sha256": "5275d6f258ba79324cfa90014819c4d8c9c891a2f073cd929ea8b43e17cbeb5d",
+      "wire_hash": 14732462989805067104,
+      "scale": 0.45,
+      "jpeg_quality": 32
+    },
+    "high": {
+      "bytes": 40573,
+      "sha256": "3d49ae868419e4c5cff952cbbf429dc59f2c624aa2fe4e2a6a33e0a948768c13",
+      "wire_hash": 1163230707341595366,
+      "scale": 0.65,
+      "jpeg_quality": 40
+    },
+    "label": "D"
+  },
+  "13_2": {
+    "low": {
+      "bytes": 17425,
+      "sha256": "b97e923c178edfc3f88c76039e8a1b96fcaee5929d93fff2028141d791771774",
+      "wire_hash": 17975211824485993909,
+      "scale": 0.45,
+      "jpeg_quality": 40
+    },
+    "high": {
+      "bytes": 40234,
+      "sha256": "e7f230f55b24595eaf427dfb0ce80908331bb0ed8670f0e375663063e0da3cf8",
+      "wire_hash": 11846571182174667497,
+      "scale": 0.45,
+      "jpeg_quality": 88
+    },
+    "label": "D"
+  },
+  "16_1": {
+    "low": {
+      "bytes": 17491,
+      "sha256": "483aa9a34bf0d380a903a028f35dea6a9afb0dad6cc84fdd62fc1920052e39c3",
+      "wire_hash": 13935197174191626485,
+      "scale": 0.45,
+      "jpeg_quality": 32
+    },
+    "high": {
+      "bytes": 39587,
+      "sha256": "75160227196ee1550577063605ef1ee9b2514e60009de9d5e5b36945f9623f8b",
+      "wire_hash": 5778448703437456000,
+      "scale": 0.75,
+      "jpeg_quality": 32
+    },
+    "label": "C"
+  },
+  "16_2": {
+    "low": {
+      "bytes": 17416,
+      "sha256": "04bdb982c3a2dbedb72f8e2453b8cd5454bc530c089c2dd9e2eaf4b7d6b46357",
+      "wire_hash": 15306675657886398214,
+      "scale": 0.45,
+      "jpeg_quality": 32
+    },
+    "high": {
+      "bytes": 40099,
+      "sha256": "6104f56879fc72cc89ee0e560b43f890a97cf3e507019c299658e16c76d85e4c",
+      "wire_hash": 12050555292933151991,
+      "scale": 0.75,
+      "jpeg_quality": 40
+    },
+    "label": "A"
+  }
+}
