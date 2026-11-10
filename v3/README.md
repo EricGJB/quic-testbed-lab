@@ -36,4 +36,4 @@ sudo "$PY" v3/experiment.py --testbed "$TESTBED" --endpoint "$V3_BIN" \
 | [逐轮指标](../results/v3/runs.json) 与 [A1 时序](../results/v3/A1-trace.csv) | A1 的稳态样本在共同时间区间 3–6 秒，pacing、窗口和带宽估计筛选在途非空采样。数组分位数顺序为 P05、P50、P95、P99。展示用 A1 时序每 10 ms 取一个状态样本并统计队列峰值。 |
 | [B1/D1 时序](../results/v3/BD-curves.csv.gz) | 每次任务前 40 ms 按 1 ms 分桶，状态取桶首前最近的样本。`tx/rx` 是路由中继的入队与出队 IP 字节数，`queue` 是桶内队列峰值。 |
 | [真实推理结果](../results/v3/model-results.csv) 与 [输入档位](../results/v3/fixtures.json) | 原始题标识、答案、正确性、每张图重编码后的组合请求字节数和 SHA-256。图片和权重由本地素材准备。 |
-| [代表性原始证据](../results/v3/trace-evidence.tar.xz) | 四类用例选定轮次的双端 qlog、端点逐采样状态、发送和接收事件、路由器逐包事件，以及去除本地素材路径的任务和容量计划。 |
+| [代表性原始证据](../results/v3/trace-evidence.tar.xz) | 四类用例选定轮次的双端 qlog、端点逐采样状态、发送和接收事件、路由器逐包事件，以及去除本地素材路径的任务和容量计划。A1 长时波动补充图直接读取第一轮的容量计划和原始采样。 |

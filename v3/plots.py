@@ -3,7 +3,10 @@
 import argparse
 import csv
 import gzip
+import io
 import json
+import tarfile
+from bisect import bisect_right
 from collections import defaultdict
 from pathlib import Path
 from statistics import median
@@ -87,6 +90,45 @@ def plot_a(out, runs, long, summary):
     tail.spines["top"].set_visible(False)
     tail.legend(loc="lower right",fontsize=8)
     figure(out,"A1",fig)
+
+
+def plot_a_slow(out):
+    evidence = out / "trace-evidence.tar.xz"
+    if not evidence.is_file():
+        return
+    sample_dir = "A1load_slow__00/"
+    with tarfile.open(evidence) as archive:
+        try:
+            plan = json.load(archive.extractfile(sample_dir + "plan.json"))
+        except KeyError:
+            return
+        with io.TextIOWrapper(archive.extractfile(sample_dir + "samples.csv"), encoding="utf-8") as stream:
+            pacing = [((int(row["us"]) - plan["origin"]) / 1e6, int(row["pacing_bps"]) / 1e6)
+                      for row in csv.DictReader(stream)]
+    capacity = [(offset / 1e6, rate) for offset, rate in plan["capacity"]]
+
+    def step(ax, trace, left, right, **kwargs):
+        times, values = zip(*trace)
+        first = bisect_right(times, left)
+        last = bisect_right(times, right)
+        ax.step((left, *times[first:last], right), (values[first-1], *values[first:last], values[last-1]),
+                where="post", **kwargs)
+
+    fig, axes = plt.subplots(2, 1, figsize=(11, 6.6), layout="constrained", sharey=True)
+    fig.suptitle("A1 长时波动补测中的目标发包速率与网络速率", fontweight="bold")
+    intervals = [(3, 6, "（甲）第 3 s 至第 6 s 的完整统计区间"),
+                 (3, 3.7, "（乙）放大第 3 s 至第 3.7 s 的两次降速")]
+    axes[0].axvspan(3, 3.7, color="#e9eef5", alpha=.75, label="乙图放大区间")
+    for ax, (left, right, title) in zip(axes, intervals):
+        step(ax, pacing, left, right, color=COLORS[2], linewidth=1.5, label="目标发包速率（BBR）")
+        step(ax, capacity, left, right, color="#333333", linestyle="--", linewidth=1.3,
+             label="网络速率（模拟空口容量）")
+        ax.set_xlim(left, right)
+        ax.set_ylim(0, 42)
+        ax.set_xlabel("从实验计时起点开始计时（s）")
+        style(ax, title, RATE)
+    axes[0].legend(loc="lower center", ncol=3, fontsize=9)
+    figure(out, "A1-slow-rates", fig)
 
 
 def aggregate(curves, case, size, field):
@@ -241,6 +283,7 @@ def main():
     with gzip.open(out/"tasks.csv.gz","rt") as handle:
         tasks=[r for r in csv.DictReader(handle) if r["case"].startswith("C1_")]
     plot_a(out,runs,rows("A1-trace.csv"),summary)
+    plot_a_slow(out)
     plot_b(out,curves,summary)
     plot_c(out,summary,tasks)
     plot_d(out,curves,summary)
