@@ -14,17 +14,17 @@ import matplotlib.pyplot as plt
 from matplotlib import font_manager
 
 COLORS = ["#657186", "#968153", "#147b8e", "#b65e43", "#78498e"]
-RATE = "速率（兆比特/秒）"
-BYTES = "数据量（千字节）"
-TIME = "时间（毫秒）"
-TASK_TIME = "从提交请求开始计时（毫秒）"
-TASK_SIZES = ["40 千字节", "200 千字节", "1 兆字节"]
+RATE = "速率（Mbps）"
+BYTES = "数据量（kB）"
+TIME = "时间（ms）"
+TASK_TIME = "从提交请求开始计时（ms）"
+TASK_SIZES = ["40 kB", "200 kB", "1 MB"]
 PIPE_NAMES = ("普通管道（短时波动）", "恒定速率管道", "稳定高容量管道", "普通管道（长时波动）")
-GRANT_NAMES = ("固定分配 20 兆比特/秒", "容量在 10 和 30 兆比特/秒之间切换",
+GRANT_NAMES = ("固定分配 20 Mbps", "容量在 10 和 30 Mbps 之间切换",
                "按需分配，发送端自行调节", "按需分配，发送端提前适配")
-PACING_NAMES = ("由拥塞控制算法自行调节", "固定使用 28 兆比特/秒",
-                "先用 28 兆比特/秒，后用 14 兆比特/秒",
-                "固定使用 14 兆比特/秒", "固定使用 21 兆比特/秒")
+PACING_NAMES = ("由拥塞控制算法自行调节", "固定使用 28 Mbps",
+                "先用 28 Mbps，后用 14 Mbps",
+                "固定使用 14 Mbps", "固定使用 21 Mbps")
 
 
 def set_chinese_font(path):
@@ -73,16 +73,16 @@ def plot_a(out, runs, long, summary):
             y = [float(r["btlbw_mbps"]) for r in xs]
             ax[1,0].plot(x,y,color=c,alpha=.85,label=label,linewidth=1)
     style(ax[1,0],"（丙）拥塞控制算法的瓶颈带宽估计（示例轮次）",RATE)
-    ax[1,0].set_xlabel("从实验计时起点开始计时（秒）")
+    ax[1,0].set_xlabel("从实验计时起点开始计时（s）")
     ax[1,0].legend(fontsize=8,ncol=2)
     periodic = [summary["A1_"+case,"all"] for case in names[:3]]
     bars = ax[1,1].bar(range(3),[100*int(r["on_time"])/int(r["tasks"]) for r in periodic],color=COLORS[:3])
     ax[1,1].bar_label(bars,fmt="%.1f%%")
     ax[1,1].set_xticks(range(3),labels[:3]); ax[1,1].set_ylim(0,113)
-    style(ax[1,1],"（丁）每 20 毫秒提交 40 千字节请求的上传表现","20 毫秒内上传完成的请求占比（%）")
+    style(ax[1,1],"（丁）每 20 ms 提交 40 kB 请求的上传表现","20 ms 内上传完成的请求占比（%）")
     tail = ax[1,1].twinx()
     tail.plot(range(3),[float(r["token_p99"]) for r in periodic],"k:o",label="传输回执耗时的第 99 百分位数")
-    tail.set_ylabel("传输回执耗时的第 99 百分位数（毫秒）")
+    tail.set_ylabel("传输回执耗时的第 99 百分位数（ms）")
     tail.set_ylim(0,32)
     tail.spines["top"].set_visible(False)
     tail.legend(loc="lower right",fontsize=8)
@@ -106,18 +106,18 @@ def plot_b(out, curves, summary):
         a.bar([i+(idx-1.5)*.18 for i in range(3)],
               [100*int(r["relaxed_on_time"])/int(r["tasks"]) for r in summary_rows],.17,
               color=COLORS[idx],label=GRANT_NAMES[idx])
-    ax[0,0].set_xticks(range(3),[f"{size}\n时限 {budget} 毫秒" for size,budget in zip(TASK_SIZES,(24,70,310))])
+    ax[0,0].set_xticks(range(3),[f"{size}\n时限 {budget} ms" for size,budget in zip(TASK_SIZES,(24,70,310))])
     ax[0,0].legend(fontsize=8,ncol=2,loc="upper center")
     ax[0,0].set_ylim(0,137); ax[0,0].set_yticks(range(0,101,20))
     ax[0,0].set_xlabel("请求大小及对应的补测时限")
     style(ax[0,0],"（甲）补测时限内的上传完成率","按时完成的请求占比（%）")
-    for a,field,unit,title,scale in ((ax[0,1],"pacing_mbps",RATE,"（乙）200 千字节请求的目标发包速率",1),
-        (ax[1,0],"cwnd_bytes",BYTES,"（丙）200 千字节请求的拥塞窗口",.001),
-        (ax[1,1],"queue",BYTES,"（丁）200 千字节请求的中继队列",.001)):
+    for a,field,unit,title,scale in ((ax[0,1],"pacing_mbps",RATE,"（乙）200 kB 请求的目标发包速率",1),
+        (ax[1,0],"cwnd_bytes",BYTES,"（丙）200 kB 请求的拥塞窗口",.001),
+        (ax[1,1],"queue",BYTES,"（丁）200 kB 请求的中继队列",.001)):
         for idx,name in enumerate(names[2:],2):
             pts=aggregate(curves,"B1_"+name,200000,field)
             a.plot([t for t,v in pts if t<=30],[v*scale for t,v in pts if t<=30],color=COLORS[idx],label=GRANT_NAMES[idx])
-        if field == "pacing_mbps": a.axhline(30,color="black",linestyle=":",label="网络分配速率为 30 兆比特/秒")
+        if field == "pacing_mbps": a.axhline(30,color="black",linestyle=":",label="网络分配速率为 30 Mbps")
         a.legend(fontsize=8); a.set_xlabel(TASK_TIME)
         style(a,title,unit)
     if long_rtt:
@@ -132,8 +132,8 @@ def plot_b(out, curves, summary):
         ax[2,0].legend(fontsize=8); ax[2,0].set_xlabel(TASK_TIME)
         ax[2,1].legend(fontsize=8); ax[2,1].set_xticks(range(3),TASK_SIZES)
         ax[2,1].set_xlabel("请求大小")
-        style(ax[2,0],"（戊）基础往返时延为 12 毫秒时的拥塞窗口",BYTES)
-        style(ax[2,1],"（己）基础往返时延为 12 毫秒时的上传耗时",TIME)
+        style(ax[2,0],"（戊）基础往返时延为 12 ms 时的拥塞窗口",BYTES)
+        style(ax[2,1],"（己）基础往返时延为 12 ms 时的上传耗时",TIME)
     figure(out,"B1",fig)
 
 
@@ -146,7 +146,7 @@ def plot_c(out, summary, tasks):
         rows = [summary["C1_"+case,str(cap)] for case in names]
         x=[i+offset for i in range(3)]
         color = COLORS[0 if cap==10 else 2]
-        label = f"模拟空口容量为 {cap} 兆比特/秒"
+        label = f"模拟空口容量为 {cap} Mbps"
         for a,field in ((ax[0],"on_time"),(ax[1],"correct20")):
             bars=a.bar(x,[int(r[field]) for r in rows],.29,color=color,label=label)
             a.bar_label(bars,fontsize=8,padding=2)
@@ -155,7 +155,7 @@ def plot_c(out, summary, tasks):
         p50 = [median(group) for group in sizes]
         ax[4].errorbar(x,p50,yerr=[[m-min(g) for m,g in zip(p50,sizes)],
             [max(g)-m for m,g in zip(p50,sizes)]],fmt="o",color=color,capsize=4,label=label)
-    for a,title in zip(ax[:2],["（甲）首次发送在 20 毫秒内上传完成的请求数",
+    for a,title in zip(ax[:2],["（甲）首次发送在 20 ms 内上传完成的请求数",
                                "（乙）首次按时上传且本地模型答对的请求数"]):
         a.set_xticks(range(3),labels); a.set_ylim(0,94)
         style(a,title,"请求数（每组共 72 个请求）")
@@ -167,7 +167,7 @@ def plot_c(out, summary, tasks):
         a.bar_label(bars,fmt="%.1f",padding=2); a.margins(y=.2)
         a.set_xticks(range(3),labels)
         style(a,title,unit)
-    ax[2].axhline(20,color="black",linestyle=":",label="20 毫秒上传时限")
+    ax[2].axhline(20,color="black",linestyle=":",label="20 ms 上传时限")
     ax[2].legend(fontsize=8,loc="upper right")
     style(ax[4],"（戊）各方案的首次请求大小",BYTES)
     ax[4].set_xticks(range(3),labels)
@@ -186,10 +186,10 @@ def plot_d(out, curves, summary):
     fig, ax = plt.subplots(3,2,figsize=(12,10),layout="constrained")
     names=["native","high","pattern","low","equal"]
     for a,field,unit,title,scale in ((ax[0,0],"pacing_mbps",RATE,"（甲）目标发包速率",1),
-        (ax[0,1],"tx",RATE,"（乙）实际入队速率（每 2 毫秒统计）",1),
+        (ax[0,1],"tx",RATE,"（乙）实际入队速率（每 2 ms 统计）",1),
         (ax[1,0],"queue",BYTES,"（丙）中继队列中的待发送数据量",.001),
         (ax[2,0],"cwnd_bytes",BYTES,"（戊）拥塞窗口",.001),
-        (ax[2,1],"rx",RATE,"（己）实际出队速率（每 2 毫秒统计）",1)):
+        (ax[2,1],"rx",RATE,"（己）实际出队速率（每 2 ms 统计）",1)):
         for idx,name in enumerate(names):
             if field in ("tx","rx"):
                 intervals = defaultdict(int)
@@ -217,7 +217,7 @@ def plot_d(out, curves, summary):
         a.plot([float(row["upload_p50"]),float(row["upload_p95"])],[i,i],color=COLORS[i],marker="o")
     a.set_yticks(range(len(names)),[name.replace("，", "，\n") for name in PACING_NAMES])
     a.axvline(20,color="gray",linestyle="--")
-    a.set_xlabel("上传耗时（毫秒）")
+    a.set_xlabel("上传耗时（ms）")
     style(a,"（丁）上传耗时的中位数至第 95 百分位数","")
     figure(out,"D1",fig)
 
