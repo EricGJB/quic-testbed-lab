@@ -55,6 +55,83 @@ def figure(out, name, fig):
     plt.close(fig)
 
 
+def plot_window_and_pacing(out):
+    fig, axes = plt.subplots(2, 2, figsize=(14, 8.2), layout="constrained")
+    fig.suptitle("拥塞窗口与目标发包速率怎样配合（原理示例）", fontweight="bold", fontsize=16)
+    window, pacing, limits, feedback = axes.flatten()
+    active, free = COLORS[2], "#e6edf3"
+
+    window.set_title("（甲）拥塞窗口限制同时在途的数据量", loc="left", fontweight="bold")
+    for y, used in [(1, 4.8), (0, 2.4)]:
+        window.barh(y, used, height=.5, color=active)
+        window.barh(y, 6-used, left=used, height=.5, color=free)
+        window.text(used/2, y, f"在途 {used:.1f} kB", color="white", ha="center", va="center")
+        window.text((used+6)/2, y, f"余量\n{6-used:.1f} kB", color="#23354a",
+                    ha="center", va="center", fontsize=9)
+    window.set_yticks([1, 0], ["收到确认前", "两个包获确认后"])
+    window.set_xlim(0, 6)
+    window.set_ylim(-.65, 1.55)
+    window.set_xticks([0, 1.2, 2.4, 3.6, 4.8, 6])
+    window.set_xlabel("数据量（kB），示例中的拥塞窗口为 6 kB")
+    window.spines[["right", "top", "left"]].set_visible(False)
+    window.tick_params(axis="y", length=0)
+
+    style(pacing, "（乙）目标发包速率决定理想发包间隔", "")
+    for y, gap, count, color in [(1, .8, 5, COLORS[0]), (0, .4, 9, active)]:
+        times = [i*gap for i in range(count)]
+        pacing.scatter(times, [y]*count, s=52, color=color, zorder=3)
+        pacing.annotate("", xy=(gap, y+.23), xytext=(0, y+.23),
+                        arrowprops={"arrowstyle": "<->", "color": color, "lw": 1.2})
+        pacing.text(gap/2, y+.29, f"{gap:.1f} ms", ha="center", va="bottom", color="#23354a")
+    pacing.set_yticks([1, 0], ["目标为 12 Mbps", "目标为 24 Mbps"])
+    pacing.set_xlim(-.12, 3.35)
+    pacing.set_ylim(-.42, 1.62)
+    pacing.set_xticks([i*.4 for i in range(9)])
+    pacing.set_xlabel("发送时间（ms），每个圆点代表一个 1.2 kB 的包")
+
+    style(limits, "（丙）到达发包时刻且窗口有余量，发送端才能发包", "")
+    times = list(range(10))
+    blocked = [2, 3, 6, 7]
+    limits.scatter(times, [1]*len(times), s=52, color=active, label="实际发出一个包", zorder=3)
+    sent = [t for t in times if t not in blocked]
+    limits.scatter(sent, [0]*len(sent), s=52, color=active, zorder=3)
+    limits.scatter(blocked, [0]*len(blocked), s=60, facecolors="none", edgecolors=COLORS[3],
+                   linewidths=1.5, label="窗口已满，暂缓发送", zorder=3)
+    limits.axvline(4, color="#535b64", linestyle="--", lw=1, label="第一个包的确认到达")
+    limits.set_yticks([1, 0], ["拥塞窗口为 4.8 kB", "拥塞窗口为 2.4 kB"])
+    limits.set_xticks(times)
+    limits.set_xlim(-.28, 9.28)
+    limits.set_ylim(-.48, 1.73)
+    limits.set_xlabel("时间（ms），示例中的目标速率为 9.6 Mbps，往返时延为 4 ms")
+    limits.legend(loc="upper center", fontsize=8, ncol=3)
+    limits.grid(axis="x", alpha=.16)
+
+    feedback.set_title("（丁）网络容量变化时，发包目标和窗口目标可以分开变化",
+                       loc="left", fontweight="bold")
+    feedback.set_axis_off()
+    matrix = feedback.table(
+        cellText=[
+            ["网络容量（Mbps）", "30", "30", "10", "10"],
+            ["瓶颈带宽估计（Mbps）", "30", "30", "30", "10"],
+            ["目标发包速率（Mbps）", "30", "37.5", "30", "10"],
+            ["拥塞窗口基础目标（kB）", "30", "30", "30", "10"],
+        ],
+        colLabels=["比较指标", "常规发送", "短时探测", "刚降速，\n估计尚未更新", "若算法采纳\n较低的估计"],
+        colWidths=[.28, .15, .15, .21, .21], cellLoc="center", bbox=(0, .14, 1, .78),
+    )
+    matrix.auto_set_font_size(False)
+    matrix.set_fontsize(9.2)
+    for (row, column), cell in matrix.get_celld().items():
+        cell.set_edgecolor("white")
+        cell.set_facecolor("#e6edf3" if row == 0 or column == 0 else "#f3f6f9")
+        if (row, column) in {(3, 2), (1, 3), (3, 3), (4, 3), (2, 4), (3, 4), (4, 4)}:
+            cell.set_facecolor("#d9ecee" if column != 3 else "#f5e4de")
+            cell.get_text().set_weight("bold")
+    feedback.text(0, .05, "窗口基础目标按 4 ms 的最小往返时延和 2 倍窗口系数计算。",
+                  transform=feedback.transAxes, fontsize=9)
+    figure(out, "cwnd-pacing-principle", fig)
+
+
 def plot_a(out, runs, long, summary):
     names = ["random", "equal20", "gold", "slow"]
     labels = ["普通管道\n短时波动", "恒定速率\n管道", "稳定高容量\n管道", "普通管道\n长时波动"]
@@ -282,6 +359,7 @@ def main():
             curves[r["case"],int(r["size"])].append(r)
     with gzip.open(out/"tasks.csv.gz","rt") as handle:
         tasks=[r for r in csv.DictReader(handle) if r["case"].startswith("C1_")]
+    plot_window_and_pacing(out)
     plot_a(out,runs,rows("A1-trace.csv"),summary)
     plot_a_slow(out)
     plot_b(out,curves,summary)
