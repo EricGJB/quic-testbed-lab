@@ -1,6 +1,6 @@
 # 第三版复现
 
-需要 Linux/WSL2、Python 3.12、sudo、iproute2、ethtool、OpenSSL 开发库、CMake、C 编译器，以及根目录的 Python 依赖。JPEG 准备还需 Pillow，制图需 matplotlib。Testbed 和模型分别沿用[根目录说明](../README.md#复现)与[V2 素材目录](../v2/README.md)。
+需要 Linux/WSL2、Python 3.12、sudo、iproute2、ethtool、OpenSSL 开发库、CMake、C 编译器，以及根目录的 Python 依赖。JPEG 准备还需 Pillow，制图需 matplotlib 和简体中文字体，例如思源黑体或微软雅黑。脚本会寻找已安装的字体，也可用 `--font` 指定字体文件。Testbed 和模型分别沿用[根目录说明](../README.md#复现)与[V2 素材目录](../v2/README.md)。
 
 ```bash
 git clone https://github.com/private-octopus/picoquic.git
